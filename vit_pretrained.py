@@ -1,7 +1,7 @@
 import torch
 from torch import nn 
 import torchvision
-
+device='cuda' if torch.cuda.is_available() else 'cpu'
 
 def create_ViT_model(num_class:int,
                      seeds:int=42):
