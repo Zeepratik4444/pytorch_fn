@@ -78,3 +78,29 @@ def pred_and_plot_image(
     )
     plt.axis(False)
 
+
+
+def predict(img,
+            model:torch.nn.Module,
+            num_class,
+            transforms)-> Tuple[Dict,float]:
+  # Starting a timer
+  start_time=timer()
+  # Transform the input image for use with your Model
+  transformed_img=transforms(img).unsqueeze(0)
+  # Putting model into eval mode, make prediction
+  model.eval()
+  with torch.inference_mode():
+    logits=model(transformed_img)
+    probs=torch.softmax(logits,dim=1)
+    final_pred=class_names[torch.argmax(probs,dim=1)]
+
+  # Creating a prediction label and prediction probablity dictionary
+  pred_labels_and_probs={class_names[i]: float(probs[0][i]) for i in range(len(num_class))}
+
+  # Calculating pred time
+  end_time=timer()
+  pred_time=round(end_time-start_time,4)
+
+  return pred_labels_and_probs,pred_time,final_pred
+
