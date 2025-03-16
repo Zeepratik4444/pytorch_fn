@@ -146,7 +146,7 @@ def predict_image(
     pred_probs = torch.softmax(target_image_pred, dim=1)
 
     # Convert prediction probabilities -> prediction labels
-    pred_label = torch.argmax(target_image_pred_probs, dim=1)
+    pred_label = torch.argmax(target_image_pred, dim=1)
 
     return pred_label,pred_probs
 
